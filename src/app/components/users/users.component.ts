@@ -24,7 +24,6 @@ export class UsersComponent implements OnInit {
     Axios.get('http://localhost:3012/users').then(res => {
       this.users = res.data;
       this.oneUser = this.users[0];
-      console.log(this.users);
       
     })
   }
