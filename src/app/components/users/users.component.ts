@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Axios from 'axios';
 import { log } from 'util';
+import { ArrayType } from '@angular/compiler';
 
 @Component({
   selector: 'app-users',
@@ -9,7 +10,7 @@ import { log } from 'util';
 })
 export class UsersComponent implements OnInit {
 
-  users:string[];
+  users: object[]; 
   oneUser:any;
   
 
@@ -37,11 +38,12 @@ export class UsersComponent implements OnInit {
   }
 
   removeUser(id) {
-    Axios.delete('http://localhost:3012/user/'+ id).then(
+    Axios.delete('http://localhost:3012/user/'+ id).then(()=>{
       this.users = this.users.filter( u => u._id !== id )
-    )
+  })
   }
 
+  curUser:string;
   putChange(id, name, lastName, date, num, mail) {
     let bodyJson = {
       name: name,
@@ -50,8 +52,14 @@ export class UsersComponent implements OnInit {
       phoneNum: num,
       mail: mail
     };
-    Axios.put('http://localhost:3012/userChange/'+ id, bodyJson).then(
-      
+    Axios.put('http://localhost:3012/userChange/'+ id, bodyJson).then(()=>
+      this.users = this.users.map((u) => {
+        if (u._id === id) {
+          return Object.assign(u, bodyJson)
+        }
+        return u
+      })
+    
     )
   }
 }

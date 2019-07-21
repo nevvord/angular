@@ -78,21 +78,6 @@ Server.post('/addNewUser', (req, res) => {
     });
 });
 
-Server.put('/work/:id', (req, res) => {
-    db.collection('works').updateOne(
-        { _id: new ObjectID(req.params.id) },
-        { $set: { title: req.body.title, miniWork: req.body.miniWork } },
-        { upsert: true },
-        (err, result) => {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(500);
-            }
-            res.send(200);
-        }
-    );
-});
-
 Server.put('/userChange/:id', (req, res) => {
     console.log(req.params.id);
     console.log(req.body);
