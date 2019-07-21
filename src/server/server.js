@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
-var cors = require('cors');
+const cors = require('cors');
 
 const   url = 'mongodb://localhost:27017',
         dbName = 'testWork';
