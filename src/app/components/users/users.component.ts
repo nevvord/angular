@@ -10,7 +10,7 @@ import { ArrayType } from '@angular/compiler';
 })
 export class UsersComponent implements OnInit {
 
-  users: object[]; 
+  users: Array<any>; 
   oneUser:any;
   
 
