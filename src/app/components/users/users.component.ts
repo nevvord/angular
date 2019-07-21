@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
       this.users = res.data;
       this.oneUser = this.users[0];
       console.log(this.users);
-      this.users =[...this.users];
+      
     })
   }
 

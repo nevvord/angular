@@ -1,4 +1,8 @@
-<ng-container *ngIf="users; else elseTemplate">
+<app-nav-bar [users]="users"></app-nav-bar>
+<ng-container *ngIf="users.length > 0; else elseTemplate">
+    
+    
+    <br>  
     <ul class="list-group">
         <li *ngFor="let user of users" class="list-group-item bg-light">
             <div class="row">
@@ -76,7 +80,7 @@
             </div>
         </div>
     </div>
-    <app-add-user [getUsers]="getUsers" [users]="users"></app-add-user>
+
 </ng-container>
 
 <ng-template #elseTemplate>

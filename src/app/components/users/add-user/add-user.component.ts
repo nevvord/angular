@@ -9,6 +9,7 @@ import Axios, { Method } from 'axios';
 export class AddUserComponent implements OnInit {
   @Input() getUsers:Function;
   @Input() users:string[];
+  UDate:string[];
 
   constructor() { }
 
@@ -24,11 +25,10 @@ export class AddUserComponent implements OnInit {
       mail: mail
     };    
     Axios.post('http://localhost:3012/addNewUser', bodyJson).then(res => {
-      this.getUsers()
-      console.log(res);
-      
-      
-      this.users.push(res);
+      Axios.get('http://localhost:3012/users').then(res => {
+      this.UDate = res.data
+      this.users.push(this.UDate[this.UDate.length-1])
+    })
     })
   }
 }
