@@ -2,15 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.css']
+  templateUrl: './nav-bar.component.html'
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent  {
 
   @Input() users:string[];
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  @Input() topMassage:Function;
 }

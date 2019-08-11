@@ -3,32 +3,31 @@ import Axios, { Method } from 'axios';
 
 @Component({
   selector: 'app-add-user',
-  templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.css']
+  templateUrl: './add-user.component.html'
 })
-export class AddUserComponent implements OnInit {
+export class AddUserComponent {
   @Input() getUsers:Function;
-  @Input() users:string[];
-  UDate:string[];
+  @Input() topMassage:Function;
+  @Input() users:Array<any>;
+  UDate:Array<any>;
 
-  constructor() { }
-
-  ngOnInit() {
-
-    }
   addNewUser(name, lastName, date, num, mail) {
-    let bodyJson = {
-      name: name,
-      lastName: lastName,
-      date: date,
-      phoneNum: num,
-      mail: mail
-    };    
-    Axios.post('http://localhost:3012/addNewUser', bodyJson).then(res => {
-      Axios.get('http://localhost:3012/users').then(res => {
-      this.UDate = res.data
-      this.users.push(this.UDate[this.UDate.length-1])
-    })
-    })
+    if (!name || !lastName || !date || !num || !mail){
+      this.topMassage('Введите пожалуйста все данные')
+    }else{
+      let bodyJson = {
+        name: name,
+        lastName: lastName,
+        date: date,
+        phoneNum: num,
+        mail: mail
+      };    
+      Axios.post('http://localhost:3013/addNewUser', bodyJson).then(res => {
+        Axios.get('http://localhost:3013/users').then(res => {
+          this.UDate = res.data
+          this.users.push(this.UDate[this.UDate.length-1])
+        })
+      })
+    }
   }
 }

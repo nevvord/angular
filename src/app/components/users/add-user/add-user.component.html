@@ -12,29 +12,29 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Name</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name" #name>
+                        <input type="text" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name" #name>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Last Name</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last Name" #lastName>
+                        <input type="text" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Last Name" #lastName>
                     </div>                
                     <div class="form-group">
                         <label for="exampleInputEmail1">Date</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Date : '17.03.1999' " #date>
+                        <input type="text" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Date : '17.03.1999' " #date>
                     </div>
                         <div class="form-group">
                         <label for="exampleInputEmail1">Phone</label>
-                        <input type="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="+380 (93) 333 33 33" #phoneNum>
+                        <input type="phone" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="+380 (93) 333 33 33" #phoneNum>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">mail</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="mail" #mail>
+                        <input type="email" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="mail" #mail>
                     </div>
                 </div>
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" (click)="addNewUser(name.value, lastName.value, date.value, phoneNum.value, mail.value)" data-dismiss="modal">Save changes</button>
+                <button type="button" class="btn btn-primary" (click)="addNewUser(name.value, lastName.value, date.value, phoneNum.value, mail.value)">Save changes</button>
             </div>
         </div>
     </div>
