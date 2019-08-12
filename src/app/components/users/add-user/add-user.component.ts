@@ -14,7 +14,7 @@ export class AddUserComponent {
 
   ngOnInit(): void {
     this.add = {
-      name : 'kek',
+      name : '',
       lName: '',
       date: '',
       phone: '',
@@ -23,7 +23,7 @@ export class AddUserComponent {
   }
 
   addNewUser() {
-    if (!this.add.name){
+    if (this.add.name){
       this.topMassage('Введите пожалуйста все данные')
       console.log(this.add);
       
