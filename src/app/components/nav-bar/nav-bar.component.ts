@@ -6,6 +6,6 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class NavBarComponent  {
 
+  @Input() oneUsers:Array<any>;
   @Input() users:string[];
-  @Input() topMassage:Function;
 }

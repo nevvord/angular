@@ -1,39 +1,36 @@
-<div *ngIf="showTopMassage" class="topMassage">
-    {{topMassageInner}}
-</div>
-<app-nav-bar [topMassage]="topMassage" [users]="users"></app-nav-bar>
+<app-nav-bar [users]="users" ></app-nav-bar>
 <ng-container *ngIf="users && users.length; else elseTemplate">
     
     <br>  
     <ul class="list-group">
         <li *ngFor="let user of users" class="list-group-item bg-light">
             <div class="row">
-                <div class="col-sm-10">
+                <div class="col-xl-10">
                     <div>
                         <strong>Name: </strong>
-                        <span>{{user.name}}</span>        
+                        <span>{{user._source.name}}</span>        
                     </div>
                     <div>
                         <strong>Last name: </strong>
-                        <span>{{user.lastName}}</span>        
+                        <span>{{user._source.lastName}}</span>        
                     </div>
                     <div>
                         <strong>Date: </strong>
-                        <span>{{user.date}}</span>        
+                        <span>{{user._source.date}}</span>        
                     </div>
                     <div>
                         <strong>Phone: </strong>
-                        <span>{{user.phoneNum}}</span>        
+                        <span>{{user._source.phoneNum}}</span>        
                     </div>
                     <div>
                         <strong>Mail: </strong>
-                        <span>{{user.mail}}</span>        
+                        <span>{{user._source.mail}}</span>        
                     </div>
                     <div>
-                        <small>{{user.postDate}}</small>        
+                        <small>{{user._source.postDate}}</small>        
                     </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-xl-2">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" (click)="changeUser(user._id)">Change</button>
                         <button type="button" class="btn btn-danger" (click)="removeUser(user._id)">Delete</button>
@@ -46,7 +43,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Change {{oneUser.name}}</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Change User</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -55,23 +52,23 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="userChangeName">Name</label>
-                            <input type="text" class="form-control" id="userChangeName" aria-describedby="emailHelp" placeholder="Name" [value]="oneUser.name" #name>
+                            <input type="text" class="form-control" id="userChangeName" aria-describedby="emailHelp" placeholder="Name" [value]="oneUser._source.name" #name>
                         </div>
                         <div class="form-group">
                             <label for="userChangeLastName">Last Name</label>
-                            <input type="text" class="form-control" id="userChangeLastName" aria-describedby="emailHelp" placeholder="Last Name" [value]="oneUser.lastName" #lastName>
+                            <input type="text" class="form-control" id="userChangeLastName" aria-describedby="emailHelp" placeholder="Last Name" [value]="oneUser._source.lastName" #lastName>
                         </div>                
                         <div class="form-group">
                             <label for="userChangeDate">Date</label>
-                            <input type="text" class="form-control" id="userChangeDate" aria-describedby="emailHelp" placeholder="Date : '17.03.1999' " [value]="oneUser.date" #date>
+                            <input type="text" class="form-control" id="userChangeDate" aria-describedby="emailHelp" placeholder="Date : '17.03.1999' " [value]="oneUser._source.date" #date>
                         </div>
                             <div class="form-group">
                             <label for="userChangePhone">Phone</label>
-                            <input type="phone" class="form-control" id="userChangePhone" aria-describedby="emailHelp" placeholder="+380 (93) 333 33 33" [value]="oneUser.phoneNum" #phoneNum>
+                            <input type="phone" class="form-control" id="userChangePhone" aria-describedby="emailHelp" placeholder="+380 (93) 333 33 33" [value]="oneUser._source.phoneNum" #phoneNum>
                         </div>
                         <div class="form-group">
                             <label for="userChangeMail">mail</label>
-                            <input type="email" class="form-control" id="userChangeMail" aria-describedby="emailHelp" placeholder="mail" [value]="oneUser.mail" #mail>
+                            <input type="email" class="form-control" id="userChangeMail" aria-describedby="emailHelp" placeholder="mail" [value]="oneUser._source.mail" #mail>
                         </div>
                     </div>
                 </form>

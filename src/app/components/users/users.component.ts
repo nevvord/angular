@@ -10,41 +10,28 @@ import Axios from 'axios';
 })
 export class UsersComponent implements OnInit {
 
-  users: Array < any > ;
-  oneUser: any;
-  showTopMassage: boolean = false;
-  topMassageInner: string;
+  users: Array<any>;
+  oneUser: Array<any> = [];
 
   ngOnInit() {
       this.getUsers()
-      console.log(this.showTopMassage);
-  }
-
-  topMassage(inner) {
-    console.log(this.showTopMassage);
-    this.topMassageInner = inner;
-    this.showTopMassage = true;
-    setTimeout(() => {
-      this.showTopMassage = false;
-    }, 5000);
-    console.log(this.showTopMassage);
   }
 
   getUsers() {
-    Axios.get('http://localhost:3013/users').then(res => {
-      this.users = res.data;
+    Axios.get('http://localhost:9200/test_users/_search').then(res => {
+      this.users = res.data.hits.hits;
       this.oneUser = this.users[0];
     })
   }
 
   changeUser(id) {
-    Axios.get('http://localhost:3013/user/' + id).then(res => {
+    Axios.get('http://localhost:9200/test_users/_doc/' + id).then(res => {
       this.oneUser = res.data;
     })
   }
 
   removeUser(id) {
-    Axios.delete('http://localhost:3013/user/' + id).then(() => {
+    Axios.delete('http://localhost:9200/test_users/_doc/' + id).then(() => {
       this.users = this.users.filter(user => user._id !== id)
     })
   }
@@ -57,10 +44,15 @@ export class UsersComponent implements OnInit {
       phoneNum: num,
       mail: mail
     };
-    Axios.put('http://localhost:3013/userChange/' + id, bodyJson).then(() =>
+    Axios.put('http://localhost:9200/test_users/_doc/' + id, bodyJson).then(() =>
       this.users = this.users.map((user) => {
         if (user._id === id) {
-          return Object.assign(user, bodyJson)
+          return Object.assign(user, {
+            _id: id,
+            _source:{
+              ...bodyJson
+            }
+          })
         }
         return user
       })

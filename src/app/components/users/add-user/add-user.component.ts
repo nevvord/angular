@@ -1,5 +1,13 @@
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  FormControl,
+  Validators,
+  FormGroup
+} from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  Input
+} from '@angular/core';
 import Axios from 'axios';
 
 @Component({
@@ -8,11 +16,9 @@ import Axios from 'axios';
 })
 
 export class AddUserComponent implements OnInit {
-  formAdd : FormGroup;
-  @Input() getUsers:Function;
-  @Input() topMassage:Function;
-  @Input() users:Array<any>;
-  UDate:Array<any>;
+  formAdd: FormGroup;
+  @Input() users: Array < any > ;
+  UDate: Array < any > ;
   submitted: boolean = false;
 
   ngOnInit() {
@@ -25,7 +31,9 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-  get f() { return this.formAdd.controls; }
+  get f() { // Ну да одной буквой :B
+    return this.formAdd.controls;
+  }
 
 
   addNewUser() {
@@ -34,26 +42,31 @@ export class AddUserComponent implements OnInit {
       console.log(this.formAdd.invalid)
       return;
     }
-      const body = {
-        name : this.formAdd.value.name,
-        lastName : this.formAdd.value.lastName,
-        date : this.formAdd.value.date,
-        phoneNum : this.formAdd.value.phone,
-        mail : this.formAdd.value.mail
-      }
-      Axios.post('http://localhost:9200/test_work/_doc/', body).then(res => {
-        console.log(res.data._id);
-        this.users.push({
-          ...body, _id: res.data._id
-        })
-
-        this.onReset()
-    })
+    const body = {
+      name: this.formAdd.value.name,
+      lastName: this.formAdd.value.lastName,
+      date: this.formAdd.value.date,
+      phoneNum: this.formAdd.value.phone,
+      mail: this.formAdd.value.mail,
+      postDate: new Date()
     }
-  
-  onReset(){
+    Axios.post('http://localhost:9200/test_users/_doc/', body).then(res => {
+      if (!this.users) {
+        this.users = []
+      }
+      this.users.push({
+        _id: res.data._id,
+        _source: {
+          ...body
+        }
+      })
+      this.onReset()
+    })
+  }
+
+  onReset() {
     this.submitted = false;
     this.formAdd.reset();
   }
-  
+
 }
