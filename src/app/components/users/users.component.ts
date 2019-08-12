@@ -25,7 +25,7 @@ export class UsersComponent implements OnInit {
     this.topMassageInner = inner;
     this.showTopMassage = true;
     setTimeout(() => {
-      this.showTopMassage === false;
+      this.showTopMassage = false;
     }, 5000);
     console.log(this.showTopMassage);
   }

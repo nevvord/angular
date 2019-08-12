@@ -1,57 +1,59 @@
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Component, OnInit, Input } from '@angular/core';
-import Axios, { Method } from 'axios';
+import Axios from 'axios';
 
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html'
 })
-export class AddUserComponent {
+
+export class AddUserComponent implements OnInit {
+  formAdd : FormGroup;
   @Input() getUsers:Function;
   @Input() topMassage:Function;
   @Input() users:Array<any>;
   UDate:Array<any>;
-  add: any ;
+  submitted: boolean = false;
 
-  ngOnInit(): void {
-    this.add = {
-      name : '',
-      lName: '',
-      date: '',
-      phone: '',
-      mail: ''
-    };
+  ngOnInit() {
+    this.formAdd = new FormGroup({
+      name: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      date: new FormControl('', Validators.required),
+      phone: new FormControl('', Validators.required),
+      mail: new FormControl('', [Validators.required, Validators.email])
+    });
   }
+
+  get f() { return this.formAdd.controls; }
+
 
   addNewUser() {
-    if (this.add.name){
-      this.topMassage('Введите пожалуйста все данные')
-      console.log(this.add);
-      
-    }else{
-      let bodyJson = {
-        name: this.add.name,
-        lastName: this.add.lName,
-        date: this.add.date,
-        phoneNum: this.add.phone,
-        mail: this.add.mail
-      };    
-      Axios.post('http://localhost:3013/addNewUser', bodyJson).then(res => {
-        Axios.get('http://localhost:3013/users').then(res => {
-          this.UDate = res.data
-          this.users.push(this.UDate[this.UDate.length-1])
-        })
-        this.add.name = null;
-        this.add.lName = null;
-        /*
-        this.add = {
-          name: null,
-          lName: null,
-          date: null,
-          phone: null,
-          mail: null
-        }
-        */
-      })
+    this.submitted = true;
+    if (this.formAdd.invalid) {
+      console.log(this.formAdd.invalid)
+      return;
     }
+      const body = {
+        name : this.formAdd.value.name,
+        lastName : this.formAdd.value.lastName,
+        date : this.formAdd.value.date,
+        phoneNum : this.formAdd.value.phone,
+        mail : this.formAdd.value.mail
+      }
+      Axios.post('http://localhost:9200/test_work/_doc/', body).then(res => {
+        console.log(res.data._id);
+        this.users.push({
+          ...body, _id: res.data._id
+        })
+
+        this.onReset()
+    })
+    }
+  
+  onReset(){
+    this.submitted = false;
+    this.formAdd.reset();
   }
+  
 }
