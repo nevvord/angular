@@ -12,20 +12,22 @@ export class UsersComponent implements OnInit {
 
   users: Array < any > ;
   oneUser: any;
-  showTopMassage: boolean;
+  showTopMassage: boolean = false;
   topMassageInner: string;
+
   ngOnInit() {
-    this.getUsers()
+      this.getUsers()
+      console.log(this.showTopMassage);
   }
 
   topMassage(inner) {
+    console.log(this.showTopMassage);
     this.topMassageInner = inner;
-    this.showTopMassage === true;
+    this.showTopMassage = true;
     setTimeout(() => {
       this.showTopMassage === false;
-    }, 15000);
-    console.log(this.showTopMassage === true);
-
+    }, 5000);
+    console.log(this.showTopMassage);
   }
 
   getUsers() {
