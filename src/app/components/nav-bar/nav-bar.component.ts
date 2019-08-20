@@ -1,11 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+  Component,
+  Input
+} from '@angular/core';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html'
 })
-export class NavBarComponent  {
+export class NavBarComponent {
 
-  @Input() oneUsers:Array<any>;
-  @Input() users:string[];
+  @Input() users: Array < any > ;
+  @Input() http: string[];
+
 }

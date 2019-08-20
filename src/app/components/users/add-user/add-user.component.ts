@@ -18,7 +18,7 @@ import Axios from 'axios';
 export class AddUserComponent implements OnInit {
   formAdd: FormGroup;
   @Input() users: Array < any > ;
-  UDate: Array < any > ;
+  @Input() http: string;
   submitted: boolean = false;
 
   ngOnInit() {
@@ -39,7 +39,6 @@ export class AddUserComponent implements OnInit {
   addNewUser() {
     this.submitted = true;
     if (this.formAdd.invalid) {
-      console.log(this.formAdd.invalid)
       return;
     }
     const body = {
@@ -50,7 +49,7 @@ export class AddUserComponent implements OnInit {
       mail: this.formAdd.value.mail,
       postDate: new Date()
     }
-    Axios.post('http://localhost:9200/test_users/_doc/', body).then(res => {
+    Axios.post(this.http + '/test_users/_doc/', body).then(res => {
       if (!this.users) {
         this.users = []
       }

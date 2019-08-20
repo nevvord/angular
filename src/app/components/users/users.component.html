@@ -1,89 +1,116 @@
-<app-nav-bar [users]="users" ></app-nav-bar>
+<app-nav-bar [users]="users" [http]="http"></app-nav-bar>
 <ng-container *ngIf="users && users.length; else elseTemplate">
-    
-    <br>  
-    <ul class="list-group">
-        <li *ngFor="let user of users" class="list-group-item bg-light">
-            <div class="row">
-                <div class="col-xl-10">
-                    <div>
-                        <strong>Name: </strong>
-                        <span>{{user._source.name}}</span>        
-                    </div>
-                    <div>
-                        <strong>Last name: </strong>
-                        <span>{{user._source.lastName}}</span>        
-                    </div>
-                    <div>
-                        <strong>Date: </strong>
-                        <span>{{user._source.date}}</span>        
-                    </div>
-                    <div>
-                        <strong>Phone: </strong>
-                        <span>{{user._source.phoneNum}}</span>        
-                    </div>
-                    <div>
-                        <strong>Mail: </strong>
-                        <span>{{user._source.mail}}</span>        
-                    </div>
-                    <div>
-                        <small>{{user._source.postDate}}</small>        
-                    </div>
-                </div>
-                <div class="col-xl-2">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" (click)="changeUser(user._id)">Change</button>
-                        <button type="button" class="btn btn-danger" (click)="removeUser(user._id)">Delete</button>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Change User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form >
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="userChangeName">Name</label>
-                            <input type="text" class="form-control" id="userChangeName" aria-describedby="emailHelp" placeholder="Name" [value]="oneUser._source.name" #name>
-                        </div>
-                        <div class="form-group">
-                            <label for="userChangeLastName">Last Name</label>
-                            <input type="text" class="form-control" id="userChangeLastName" aria-describedby="emailHelp" placeholder="Last Name" [value]="oneUser._source.lastName" #lastName>
-                        </div>                
-                        <div class="form-group">
-                            <label for="userChangeDate">Date</label>
-                            <input type="text" class="form-control" id="userChangeDate" aria-describedby="emailHelp" placeholder="Date : '17.03.1999' " [value]="oneUser._source.date" #date>
-                        </div>
-                            <div class="form-group">
-                            <label for="userChangePhone">Phone</label>
-                            <input type="phone" class="form-control" id="userChangePhone" aria-describedby="emailHelp" placeholder="+380 (93) 333 33 33" [value]="oneUser._source.phoneNum" #phoneNum>
-                        </div>
-                        <div class="form-group">
-                            <label for="userChangeMail">mail</label>
-                            <input type="email" class="form-control" id="userChangeMail" aria-describedby="emailHelp" placeholder="mail" [value]="oneUser._source.mail" #mail>
-                        </div>
-                    </div>
-                </form>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" data-dismiss="modal" (click)="putChange(oneUser._id, name.value, lastName.value, date.value, phoneNum.value, mail.value)">Save changes</button>
-                </div>
-            </div>
+
+  <br>
+  <ul class="list-group">
+    <li *ngFor="let user of users" class="list-group-item bg-light">
+      <div class="row">
+        <div class="col-xl-10">
+          <div>
+            <strong>Name: </strong>
+            <span>{{user._source.name}}</span>
+          </div>
+          <div>
+            <strong>Last name: </strong>
+            <span>{{user._source.lastName}}</span>
+          </div>
+          <div>
+            <strong>Date: </strong>
+            <span>{{user._source.date}}</span>
+          </div>
+          <div>
+            <strong>Phone: </strong>
+            <span>{{user._source.phoneNum}}</span>
+          </div>
+          <div>
+            <strong>Mail: </strong>
+            <span>{{user._source.mail}}</span>
+          </div>
+          <div>
+            <small>{{user._source.postDate}}</small>
+          </div>
         </div>
+        <div class="col-xl-2">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changeUser"
+              (click)="changeUser(user._id)">Change</button>
+            <button type="button" class="btn btn-danger" (click)="removeUser(user._id)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <!--Modal-->
+  <div class="modal fade" id="changeUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Change user</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="oneUser" (ngSubmit)="putChange()">
+            <div class="form-group">
+              <label for="inpName">Name</label>
+              <input type="text" class="form-control" required id="inpName" placeholder="Name" formControlName="name"
+                [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Name is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inpLastName">Last Name</label>
+              <input type="text" class="form-control" required id="inpLastName" placeholder="Last Name"
+                formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+              <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="InpDate">Date</label>
+              <input type="date" class="form-control" required id="InpDate" placeholder="Date : '17.03.1999' "
+                formControlName="date" [ngClass]="{ 'is-invalid': submitted && f.date.errors }">
+              <div *ngIf="submitted && f.date.errors" class="invalid-feedback">
+                <div *ngIf="f.date.errors.required">Please enter a date</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inpPhone">Phone</label>
+              <input type="number" class="form-control" required id="inpPhone" placeholder="+380 (93) 333 33 33"
+                formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }">
+              <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                <div *ngIf="f.phone.errors.required">Phone number is required</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inpMail">mail</label>
+              <input type="email" class="form-control" required id="inpMail" placeholder="mail" formControlName="mail"
+                [ngClass]="{ 'is-invalid': submitted && f.mail.errors }">
+              <div *ngIf="submitted && f.mail.errors" class="invalid-feedback">
+                <div *ngIf="f.mail.errors.required">Mail is required</div>
+                <div *ngIf="f.mail.errors.email">Email must be a valid email address</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="reset" class="btn btn-secondary" data-dismiss="modal" (click)="onReset()"
+                data-toggle="tooltip" data-placement="top" title="Tooltip on top">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!--Modal-->
 
 </ng-container>
 
 <ng-template #elseTemplate>
-    <p class="alert alert-danger"> Hi! We need create new user!</p>
-    <app-add-user></app-add-user>
+  <p class="alert alert-danger"> Hi! We need create new user!</p>
+  <app-add-user></app-add-user>
 </ng-template>
-
